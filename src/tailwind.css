@@ -1,5 +1,58 @@
 @import 'tailwindcss';
 
+@keyframes loading-shadow {
+  0% {
+    transform: scaleX(1.5);
+  }
+
+  40% {
+    transform: scaleX(1);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: scaleX(0.2);
+    opacity: 0.4;
+  }
+}
+
+@keyframes loading-circle {
+  0% {
+    top: 60px;
+    height: 5px;
+    border-radius: 50px 50px 25px 25px;
+    transform: scaleX(1.7);
+  }
+
+  40% {
+    height: 20px;
+    border-radius: 50%;
+    transform: scaleX(1);
+  }
+
+  100% {
+    top: 0%;
+  }
+}
+
+@layer utilities {
+  .animate-loading-shadow {
+    animation: loading-shadow 0.5s ease infinite alternate;
+  }
+
+  .animate-loading-circle {
+    animation: loading-circle 0.5s ease infinite alternate;
+  }
+
+  .delay-custom-200 {
+    animation-delay: 200ms;
+  }
+
+  .delay-custom-300 {
+    animation-delay: 300ms;
+  }
+}
+
 @theme {
   --color-primary: #656fc7;
   --color-normal-text: #2e2f30;
