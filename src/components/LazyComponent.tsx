@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import type { LazyExoticComponent } from 'react'
+import Loading from './Loading'
 
 interface LazyRouteProps {
   lazyComponent: LazyExoticComponent<React.FC<unknown>>
@@ -7,7 +8,13 @@ interface LazyRouteProps {
 
 const LazyComponent = ({ lazyComponent: Component }: LazyRouteProps) => {
   return (
-    <Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center h-screen">
+          <Loading />
+        </div>
+      }
+    >
       <Component />
     </Suspense>
   )

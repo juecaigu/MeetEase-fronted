@@ -38,12 +38,15 @@ const BookingRecord = () => {
         renderItem={(item) => {
           return (
             <List.Item>
-              <div className="w-full">
+              <div className="w-full relative">
                 <Space className="mb-4" size={16}>
                   <span className="text-lg font-bold">{item.name}</span>
                   <Divider type="vertical" />
                   <span className="text-sm text-gray-500 ">{item.location}</span>
                   <span className="text-sm text-gray-500">{item.capacity}</span>
+                  <span className="absolute right-0 top-0 cursor-pointer text-primary-400 hover:text-primary hover:underline">
+                    选择
+                  </span>
                 </Space>
                 <TimeLine
                   timeSlots={item.booking}

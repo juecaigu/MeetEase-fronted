@@ -1,59 +1,42 @@
 @import 'tailwindcss';
 
-@keyframes loading-shadow {
-  0% {
-    transform: scaleX(1.5);
+@keyframes loading-bar {
+  20% {
+    background-color: var(--color-primary);
+    transform: scaleY(1.5);
   }
 
   40% {
-    transform: scaleX(1);
-    opacity: 0.7;
-  }
-
-  100% {
-    transform: scaleX(0.2);
-    opacity: 0.4;
-  }
-}
-
-@keyframes loading-circle {
-  0% {
-    top: 60px;
-    height: 5px;
-    border-radius: 50px 50px 25px 25px;
-    transform: scaleX(1.7);
-  }
-
-  40% {
-    height: 20px;
-    border-radius: 50%;
-    transform: scaleX(1);
-  }
-
-  100% {
-    top: 0%;
+    transform: scaleY(1);
   }
 }
 
 @layer utilities {
-  .animate-loading-shadow {
-    animation: loading-shadow 0.5s ease infinite alternate;
+  .animate-loading-bar {
+    animation: loading-bar 1s linear infinite alternate;
   }
 
-  .animate-loading-circle {
-    animation: loading-circle 0.5s ease infinite alternate;
+  .delay-custom-500 {
+    animation-delay: 500ms;
   }
 
-  .delay-custom-200 {
-    animation-delay: 200ms;
-  }
-
-  .delay-custom-300 {
-    animation-delay: 300ms;
+  .delay-custom-250 {
+    animation-delay: 250ms;
   }
 }
 
 @theme {
   --color-primary: #656fc7;
   --color-normal-text: #2e2f30;
+  --color-primary-50: #f6f7fd;
+  --color-primary-100: #eef0fb;
+  --color-primary-200: #d5d9f5;
+  --color-primary-300: #bcc2ef;
+  --color-primary-400: #8a95e2;
+  --color-primary-500: #5867d6;
+  --color-primary-600: #4f5dc1;
+  --color-primary-700: #424ea1;
+  --color-primary-800: #353e81;
+  --color-primary-900: #2b3269;
+  --color-danger: #ff4d4f;
 }

@@ -86,16 +86,13 @@ const TimerButton: React.FC<TimerButtonProps> = ({
   }, [onCountdownEnd, targetTimeKey, storageKey])
 
   // 按钮点击处理
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback(async () => {
     if (isCountingDown) return
-
+    await onClick?.()
     // 如果启用了倒计时，先开始倒计时
     if (enableCountdown) {
       startCountdown()
     }
-
-    // 执行正常的点击事件
-    onClick?.()
   }, [isCountingDown, enableCountdown, startCountdown, onClick])
 
   // 渲染倒计时内容

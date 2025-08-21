@@ -20,6 +20,9 @@ importers:
       axios:
         specifier: ^1.11.0
         version: 1.11.0
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
       less:
         specifier: ^4.4.0
         version: 4.4.0

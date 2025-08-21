@@ -28,7 +28,7 @@ interface RefreshTokenResponse {
 
 // 创建axios实例
 const instance: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/meetease',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

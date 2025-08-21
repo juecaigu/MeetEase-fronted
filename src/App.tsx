@@ -1,13 +1,13 @@
 // src/App.js
 import { RouterProvider } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext'
+import { MeetProvider } from './context/MeetProvider'
 import router from './routes'
 import { ConfigProvider } from 'antd'
 import { ThemeProvider } from './context/ThemeProvider'
 
 function App() {
   return (
-    <AuthProvider>
+    <MeetProvider>
       <ThemeProvider>
         <ConfigProvider
           theme={{
@@ -25,7 +25,7 @@ function App() {
           <RouterProvider router={router}></RouterProvider>
         </ConfigProvider>
       </ThemeProvider>
-    </AuthProvider>
+    </MeetProvider>
   )
 }
 

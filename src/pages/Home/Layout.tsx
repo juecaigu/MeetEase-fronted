@@ -12,14 +12,14 @@ import {
 import { Layout, Menu, type MenuProps } from 'antd'
 import { ThemeContext } from '../../context/ThemeContext'
 import { Outlet, NavLink } from 'react-router-dom'
-import LogoTab from './LogoTab'
+import Header from './Header'
 
 type MenuItem = Required<MenuProps>['items'][number] & {
   code?: string
   children?: MenuItem[]
 }
 
-const { Header, Content, Sider } = Layout
+const { Content, Sider } = Layout
 
 const items: MenuItem[] = [
   {
@@ -95,12 +95,11 @@ const Home: React.FC<unknown> = () => {
   const { theme } = useContext(ThemeContext)
   return (
     <Layout className="h-screen overflow-hidden">
-      <Sider breakpoint="lg" collapsedWidth="0" theme={theme}>
-        <LogoTab />
-        <Menu mode="inline" items={items} defaultSelectedKeys={['booking']} theme={theme} className="h-full" />
-      </Sider>
+      <Header />
       <Layout>
-        <Header className={`p-0 border-b-1 border-solid border-gray-200`} />
+        <Sider breakpoint="lg" collapsedWidth="0" theme={theme}>
+          <Menu mode="inline" items={items} defaultSelectedKeys={['booking']} theme={theme} className="h-full" />
+        </Sider>
         <Content>
           <Outlet />
         </Content>
