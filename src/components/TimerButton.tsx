@@ -30,11 +30,12 @@ const TimerButton: React.FC<TimerButtonProps> = ({
   enableCountdown = true,
   countdownKey = 'default',
   disabled,
-  loading,
+  loading: propsLoading,
   ...buttonProps
 }) => {
   const [isCountingDown, setIsCountingDown] = useState(false)
   const [targetTime, setTargetTime] = useState<number>(0)
+  const [loading, setLoading] = useState<ButtonProps['loading']>(propsLoading)
 
   // 生成存储键名
   const storageKey = `countdown_${countdownKey}`
@@ -88,10 +89,16 @@ const TimerButton: React.FC<TimerButtonProps> = ({
   // 按钮点击处理
   const handleClick = useCallback(async () => {
     if (isCountingDown) return
-    await onClick?.()
-    // 如果启用了倒计时，先开始倒计时
-    if (enableCountdown) {
-      startCountdown()
+    setLoading(true)
+    try {
+      await onClick?.()
+      setLoading(false)
+      // 如果启用了倒计时，先开始倒计时
+      if (enableCountdown) {
+        startCountdown()
+      }
+    } finally {
+      setLoading(false)
     }
   }, [isCountingDown, enableCountdown, startCountdown, onClick])
 
