@@ -44,4 +44,25 @@ const requestChangePassword = (params: {
   return http.post('/user/update/password', params)
 }
 
-export { requestLogin, requestCaptcha, requestRegister, requestGetTime, requestChangePassword }
+const requestGetUserInfo = (): Promise<ApiResponse<User>> => {
+  return http.get('/user/userInfo')
+}
+
+const requestUpdateUserInfo = (params: {
+  id: number
+  nickname: string
+  email: string
+  phone: string
+}): Promise<ApiResponse<null>> => {
+  return http.post('/user/update/userInfo', params)
+}
+
+export {
+  requestLogin,
+  requestCaptcha,
+  requestRegister,
+  requestGetTime,
+  requestChangePassword,
+  requestGetUserInfo,
+  requestUpdateUserInfo,
+}

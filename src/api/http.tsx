@@ -81,7 +81,6 @@ instance.interceptors.response.use(
   },
   async (error: AxiosError<ApiResponse>) => {
     const { response: errorResponse, config } = error
-
     if (errorResponse?.status === 401) {
       // 无权限，尝试刷新token
       try {

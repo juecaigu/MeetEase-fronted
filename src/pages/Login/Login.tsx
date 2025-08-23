@@ -1,4 +1,4 @@
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, message } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/images/meetease-dark.svg'
 import { useContext, useState } from 'react'
@@ -33,7 +33,8 @@ const Login: React.FC<unknown> = () => {
               })
           }
         })
-        .catch(() => {
+        .catch((error) => {
+          message.error(error.response?.data?.message || error.message)
           setLoading(false)
         })
     })

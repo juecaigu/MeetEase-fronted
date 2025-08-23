@@ -7,7 +7,8 @@ interface User {
   avatar: string
   email: string
   phone: string
-  roles: string[]
+  roles: { id: number; name: string; admin: boolean }[]
+  isAdmin: boolean
   updatedTime: string
 }
 

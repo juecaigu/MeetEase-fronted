@@ -5,6 +5,7 @@ import CustomTheme from './CustomTheme'
 import TimerButton from '../../components/TimerButton'
 import LogoTab from '../Home/LogoTab'
 import { requestCaptcha, requestRegister } from '@/api/api'
+import RULES from '@/config/rules'
 
 const Signup: React.FC<unknown> = () => {
   const [form] = Form.useForm()
@@ -22,7 +23,8 @@ const Signup: React.FC<unknown> = () => {
             })
           }
         })
-        .catch(() => {
+        .catch((error) => {
+          message.error(error.response?.data?.message || error.message)
           setLoading(false)
         })
     })
@@ -57,68 +59,23 @@ const Signup: React.FC<unknown> = () => {
           <div className="w-2/5 max-w-100 relative">
             <div>
               <Form form={form} labelCol={{ span: 6 }} size="large" validateTrigger="onBlur" clearOnDestroy>
-                <Form.Item
-                  name="username"
-                  label="用户名"
-                  rules={[
-                    { required: true, message: '' },
-                    {
-                      pattern: /^[a-zA-Z0-9_-]{3,50}$/,
-                      message: '用户名只能包含字母、数字、下划线和连字符,长度在3-50个字符之间',
-                    },
-                  ]}
-                >
+                <Form.Item name="username" label="用户名" rules={RULES.username}>
                   <Input placeholder="请输入用户名" />
                 </Form.Item>
 
-                <Form.Item
-                  name="nickname"
-                  label="昵称"
-                  rules={[
-                    { required: true, message: '' },
-                    { min: 2, max: 50, message: '昵称长度必须在2-50个字符之间' },
-                  ]}
-                >
+                <Form.Item name="nickname" label="昵称" rules={RULES.nickname}>
                   <Input placeholder="请输入昵称" />
                 </Form.Item>
 
-                <Form.Item
-                  name="email"
-                  label="邮箱"
-                  rules={[
-                    { required: true, message: '' },
-                    { type: 'email', message: '邮箱格式不正确' },
-                  ]}
-                >
+                <Form.Item name="email" label="邮箱" rules={RULES.email}>
                   <Input placeholder="请输入邮箱" />
                 </Form.Item>
 
-                <Form.Item
-                  name="phone"
-                  label="手机号"
-                  rules={[
-                    { required: true, message: '' },
-                    {
-                      pattern: /^1[3-9]\d{9}$/,
-                      message: '手机号格式不正确',
-                    },
-                  ]}
-                >
+                <Form.Item name="phone" label="手机号" rules={RULES.phone}>
                   <Input placeholder="请输入手机号" />
                 </Form.Item>
 
-                <Form.Item
-                  name="password"
-                  label="密码"
-                  rules={[
-                    { required: true, message: '' },
-                    { min: 8, max: 50, message: '密码长度必须在8-50个字符之间' },
-                    {
-                      pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-                      message: '密码必须包含至少一个大写字母、一个小写字母、一个数字和一个特殊字符',
-                    },
-                  ]}
-                >
+                <Form.Item name="password" label="密码" rules={RULES.password}>
                   <Input.Password placeholder="请输入密码" />
                 </Form.Item>
 

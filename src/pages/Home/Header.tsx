@@ -1,18 +1,17 @@
 import { useContext, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LogoTab from './LogoTab'
-import { Avatar, Dropdown, Modal, Space, type MenuProps, type ModalProps } from 'antd'
+import { Avatar, Dropdown, Modal, Space, type MenuProps } from 'antd'
 import { REFRESH_TOKEN_KEY, TOKEN_KEY } from '@/config/constant'
 import { MeetContext } from '@/context/MeetContext'
 import ChangePassword from './ChangPassword'
+import Profile from './Profile'
 
 const Header: React.FC<unknown> = () => {
   const navigate = useNavigate()
   const { userInfo } = useContext(MeetContext)
   const [open, setOpen] = useState<boolean>(false)
-  const [modalContent, setModalContent] = useState<{ props: Partial<ModalProps>; content: React.ReactNode } | null>(
-    null,
-  )
+  const [modalContent, setModalContent] = useState<React.ReactNode | null>(null)
 
   const avatar = useMemo(() => {
     return (userInfo.user?.username?.charAt(0) || 'u').toUpperCase()
@@ -33,22 +32,18 @@ const Header: React.FC<unknown> = () => {
     {
       key: 'profile',
       label: '个人资料',
-      //   onClick: () => {
-      //     navigate('/profile')
-      //   },
+      onClick: () => {
+        setOpen(true)
+        setModalContent(<Profile login={userInfo.login} userInfo={userInfo.user!} />)
+      },
     },
     {
       key: 'changePassword',
       label: '修改密码',
+      disabled: userInfo.user?.isAdmin,
       onClick: () => {
         setOpen(true)
-        setModalContent({
-          props: {
-            closeIcon: false,
-            width: 450,
-          },
-          content: <ChangePassword onCancel={closeModal} user={userInfo.user!} />,
-        })
+        setModalContent(<ChangePassword onCancel={closeModal} user={userInfo.user!} />)
       },
     },
     {
@@ -88,16 +83,8 @@ const Header: React.FC<unknown> = () => {
           </Avatar>
         </Dropdown>
       </Space>
-      <Modal
-        open={open}
-        title={null}
-        onCancel={closeModal}
-        footer={null}
-        centered
-        destroyOnHidden
-        {...modalContent?.props}
-      >
-        {modalContent?.content}
+      <Modal open={open} title={null} onCancel={closeModal} footer={null} centered destroyOnHidden width={460}>
+        {modalContent}
       </Modal>
     </div>
   )

@@ -1,8 +1,9 @@
-import { Button, Col, Form, Input, Row, Space } from 'antd'
+import { Button, Col, Form, Input, message, Row, Space } from 'antd'
 import CustomTheme from '../Login/CustomTheme'
 import TimerButton from '@/components/TimerButton'
 import { useState } from 'react'
 import { requestCaptcha, requestChangePassword } from '@/api/api'
+import RULES from '@/config/rules'
 
 const ChangePassword: React.FC<{ onCancel: () => void; user: { id: number; email: string } }> = ({
   onCancel,
@@ -20,9 +21,15 @@ const ChangePassword: React.FC<{ onCancel: () => void; user: { id: number; email
           id: user.id,
           newPassword: values.newPassword,
           captcha: values.captcha,
-        }).then(() => {
-          onCancel()
         })
+          .then(() => {
+            message.success('密码修改成功!')
+            onCancel()
+          })
+          .catch((error) => {
+            message.error(error.response?.data?.message || error.message)
+            setLoading(false)
+          })
       })
       .finally(() => {
         setLoading(false)
@@ -41,19 +48,9 @@ const ChangePassword: React.FC<{ onCancel: () => void; user: { id: number; email
 
   return (
     <CustomTheme>
-      <div className="pt-8 px-6 w-100">
+      <div className="pt-10 px-6">
         <Form form={form} validateTrigger="onBlur" layout="vertical" size="large">
-          <Form.Item
-            name="newPassword"
-            rules={[
-              { required: true, message: '' },
-              { min: 8, max: 50, message: '密码长度必须在8-50个字符之间' },
-              {
-                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-                message: '密码必须包含至少一个大写字母、一个小写字母、一个数字和一个特殊字符',
-              },
-            ]}
-          >
+          <Form.Item name="newPassword" rules={RULES.password}>
             <Input.Password placeholder="请输入新密码" />
           </Form.Item>
           <Form.Item
