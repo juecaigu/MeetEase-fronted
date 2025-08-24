@@ -40,3 +40,7 @@
   --color-primary-900: #2b3269;
   --color-danger: #ff4d4f;
 }
+
+.cus-ellipsis {
+  @apply overflow-hidden text-ellipsis whitespace-nowrap;
+}

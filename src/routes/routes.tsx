@@ -28,11 +28,6 @@ export const routes: RouteObject[] = [
         path: '/booking',
         element: LazyComponent({ lazyComponent: lazy(() => import('../pages/Booking/Booking')) }),
       },
-      {
-        loader: protectedLoader,
-        path: '/booking-record',
-        element: LazyComponent({ lazyComponent: lazy(() => import('../pages/Record/BookingRecord')) }),
-      },
     ],
   },
 ]

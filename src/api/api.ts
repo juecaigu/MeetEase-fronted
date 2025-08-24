@@ -1,5 +1,5 @@
 import http from './http'
-import type { User } from '@/type/type'
+import type { MeetingRoomRecord, User } from '@/type/type'
 
 interface ApiResponse<T> {
   code: number
@@ -7,6 +7,12 @@ interface ApiResponse<T> {
   data: T
 }
 
+/**
+ * 登录
+ * @param username
+ * @param password
+ * @returns
+ */
 const requestLogin = (
   username: string,
   password: string,
@@ -17,10 +23,20 @@ const requestLogin = (
   })
 }
 
+/**
+ * 获取验证码
+ * @param email
+ * @returns
+ */
 const requestCaptcha = (email: string): Promise<ApiResponse<{ captcha: string }>> => {
   return http.get(`/user/captcha?email=${email}`)
 }
 
+/**
+ * 注册
+ * @param params
+ * @returns
+ */
 const requestRegister = (params: {
   username: string
   nickName: string
@@ -32,10 +48,19 @@ const requestRegister = (params: {
   return http.post('/user/register', params)
 }
 
+/**
+ * 获取服务时间
+ * @returns
+ */
 const requestGetTime = (): Promise<ApiResponse<{ time: string }>> => {
   return http.get('/tasks/service-time')
 }
 
+/**
+ * 修改密码
+ * @param params
+ * @returns
+ */
 const requestChangePassword = (params: {
   id: number
   newPassword: string
@@ -44,10 +69,19 @@ const requestChangePassword = (params: {
   return http.post('/user/update/password', params)
 }
 
+/**
+ * 获取用户信息
+ * @returns
+ */
 const requestGetUserInfo = (): Promise<ApiResponse<User>> => {
   return http.get('/user/userInfo')
 }
 
+/**
+ * 更新用户信息
+ * @param params
+ * @returns
+ */
 const requestUpdateUserInfo = (params: {
   id: number
   nickname: string
@@ -55,6 +89,35 @@ const requestUpdateUserInfo = (params: {
   phone: string
 }): Promise<ApiResponse<null>> => {
   return http.post('/user/update/userInfo', params)
+}
+
+/**
+ * 获取会议室列表
+ * @param pageNo
+ * @param pageSize
+ * @returns
+ */
+const requestGetMeetingRoom = (params: {
+  pageNo: number
+  pageSize: number
+  date: string
+}): Promise<ApiResponse<{ data: MeetingRoomRecord[] }>> => {
+  return http.post(`/meeting-room/booking/list`, params)
+}
+
+/**
+ * 预订会议
+ * @param params
+ * @returns
+ */
+const requestBooking = (params: {
+  meetingRoomId: number
+  startTime: string
+  endTime: string
+  title: string
+  remark?: string
+}): Promise<ApiResponse<null>> => {
+  return http.post('/booking/create', params)
 }
 
 export {
@@ -65,4 +128,6 @@ export {
   requestChangePassword,
   requestGetUserInfo,
   requestUpdateUserInfo,
+  requestGetMeetingRoom,
+  requestBooking,
 }

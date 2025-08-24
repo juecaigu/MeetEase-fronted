@@ -12,4 +12,13 @@ interface User {
   updatedTime: string
 }
 
-export type { User }
+interface MeetingRoomRecord {
+  id: number
+  name: string
+  location: string
+  capacity: number
+  bookings: { startTime: string; endTime: string; status: 1 | 0 }[]
+  equipment: { id: number; name: string }[]
+}
+
+export type { User, MeetingRoomRecord }

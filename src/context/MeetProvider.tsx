@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { MeetContext } from './MeetContext'
 import type { User } from '@/type/type'
-import { requestGetUserInfo } from '@/api/api'
+import { requestGetTime, requestGetUserInfo } from '@/api/api'
+import { setServerTime } from '@/config/serviceTime'
 
 export const MeetProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
@@ -25,6 +26,11 @@ export const MeetProvider = ({ children }: { children: React.ReactNode }) => {
       if (res.code === 200 && res.data) {
         res.data.isAdmin = res.data.roles.some((role) => role.admin)
         setUser(res.data)
+      }
+    })
+    requestGetTime().then((res) => {
+      if (res.code === 200) {
+        setServerTime(res.data.time)
       }
     })
   }, [])

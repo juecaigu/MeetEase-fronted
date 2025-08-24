@@ -1,4 +1,5 @@
 import { STORAGE_KEY } from './constant'
+import dayjs from 'dayjs'
 let offsetMs: number | null = null
 
 ;(function restore() {
@@ -30,7 +31,19 @@ export const setServerTime = (serverTime: string | number | Date): void => {
   }
 }
 
-export const getServerNow = (): Date => {
-  if (offsetMs == null) return new Date()
-  return new Date(Date.now() + offsetMs)
+export const getServerNow = (): dayjs.Dayjs => {
+  if (offsetMs == null) return dayjs()
+  return dayjs(Date.now() + offsetMs)
+}
+
+export const getServerTimeHalf = (): dayjs.Dayjs => {
+  const serverNow = getServerNow()
+
+  const currentMinute = serverNow.minute()
+
+  if (currentMinute < 30) {
+    return serverNow.minute(30).second(0).millisecond(0)
+  } else {
+    return serverNow.add(1, 'hour').minute(0).second(0).millisecond(0)
+  }
 }
