@@ -1,5 +1,5 @@
 import http from './http'
-import type { MeetingRoomRecord, User } from '@/type/type'
+import type { BookingRecord, MeetingRoomRecord, User } from '@/type/type'
 
 interface ApiResponse<T> {
   code: number
@@ -120,6 +120,21 @@ const requestBooking = (params: {
   return http.post('/booking/create', params)
 }
 
+/**
+ * 获取预订记录
+ * @param params
+ * @returns
+ */
+const requestGetBookingRecord = (params: {
+  pageNo: number
+  pageSize: number
+  status?: string
+  startTime?: string
+  endTime?: string
+}): Promise<ApiResponse<{ list: BookingRecord[]; total: number }>> => {
+  return http.post(`/booking/list`, params)
+}
+
 export {
   requestLogin,
   requestCaptcha,
@@ -130,4 +145,5 @@ export {
   requestUpdateUserInfo,
   requestGetMeetingRoom,
   requestBooking,
+  requestGetBookingRecord,
 }

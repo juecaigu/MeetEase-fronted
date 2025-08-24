@@ -76,6 +76,7 @@ const MeetingRoom = forwardRef<MeetingRoomRef, { onSelect: SelectEventParams }>(
             setPageNo(page)
             queryMeetingRoom(page, pageSize)
           },
+          showTotal: (total) => `共 ${total} 条`,
         }}
         renderItem={(item) => {
           return (

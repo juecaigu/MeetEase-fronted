@@ -59,7 +59,7 @@ const Header: React.FC<unknown> = () => {
   }
 
   return (
-    <div className="border-b-1 border-solid border-gray-200 px-4 flex items-center justify-between h-[64px] bg-white">
+    <div className="border-b-1 border-solid border-gray-200 px-4 flex items-center justify-between h-[64px] bg-white min-h-[64px]">
       <div className="cursor-pointer h-full ">
         <LogoTab onClick={redirectToHome} />
       </div>
