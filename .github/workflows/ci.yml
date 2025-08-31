@@ -61,10 +61,20 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ env.SSH_PRIVATE_KEY }}
           ARGS: '-avz --delete'
-          SOURCE: 'dist Dockerfile nginx.conf .dockerignore'
+          SOURCE: 'dist Dockerfile nginx.conf'
           REMOTE_HOST: ${{ env.REMOTE_HOST }}
           REMOTE_USER: ${{ env.REMOTE_USER }}
           TARGET: ${{ env.TARGET }}
+
+      - name: Run docker on server
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ env.REMOTE_HOST }}
+          username: ${{ env.REMOTE_USER }}
+          key: ${{ env.SSH_PRIVATE_KEY }}
+          script: |
+            cd ${{ env.TARGET }}
+            sh docker.sh
 
       - name: Finish
         run: |
