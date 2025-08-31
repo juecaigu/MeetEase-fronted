@@ -55,14 +55,6 @@ jobs:
         run: pnpm run build
         env:
           NDOE_ENV: production
-
-      - name: Debug deployment
-        run: |
-          echo "SSH_PRIVATE_KEY length: ${#SSH_PRIVATE_KEY}"
-          echo "REMOTE_HOST: ${{ secrets.REMOTE_HOST }}"
-          echo "REMOTE_USER: ${{ secrets.REMOTE_USER }}"
-          echo "REMOTE_PATH: ${{ secrets.REMOTE_PATH }}"
-          echo "Current directory: $(pwd)"
       
       - name: Deploy to server
         uses: easingthemes/ssh-deploy@v5.1.1
