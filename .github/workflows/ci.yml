@@ -1,0 +1,81 @@
+name: Build App
+on:
+  push:
+    branches:
+      - main
+env:
+    SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }} # 服务器私钥
+    REMOTE_HOST: ${{ secrets.SERVER_REMOTE_HOST }} # 服务器IP地址
+    REMOTE_USER: ${{ secrets.SERVER_REMOTE_USER }} # 服务器用户名
+    TARGET: ${{  secrets.SERVER_TARGET  }} # 服务器路径
+    cache-name: note
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkoust code
+        uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
+
+      - name: Setup node.js
+        uses: actions/setup-node@v4
+        with:
+         node-version: '22.18.0'
+         cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+          run_install: false
+      
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
+      
+      # 缓存pnpm依赖
+      - name: Cache pnpm modules
+        uses: actions/cache@v3
+        with:
+          path: |
+           ${{ env.STORE_PATH }}
+                      ./node_modules
+                  key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pnpm-
+                      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        env:
+          NODE_ENV: development
+
+      - name: Build project
+        run: pnpm run build
+        env:
+          NDOE_ENV: production
+
+      - name: Deploy to server
+        uses: easingthemes/ssh-deploy@v2.0.7
+        env:
+          SSH_PRIVATE_KEY: ${{ env.SSH_PRIVATE_KEY }}
+          ARGS: '-avz --delete'
+          SOURCE: 'dist/'
+          REMOTE_HOST: ${{ env.REMOTE_HOST }}
+          REMOTE_USER: ${{ env.REMOTE_USER }}
+          TARGET: ${{ env.TARGET }}
+
+      - name: Finish
+        run: |
+          echo "completed at ${date}"
+          echo "Server: ${{ env.SERVER_HOST }}"
+          
+          
+
+        
+
+      
+        
+   
