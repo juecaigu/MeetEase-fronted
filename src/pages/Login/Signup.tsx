@@ -18,8 +18,12 @@ const Signup: React.FC<unknown> = () => {
       requestRegister(values)
         .then((res) => {
           if (res.code === 200) {
-            message.success('注册成功', 3000, () => {
-              navigate('/login')
+            message.success({
+              content: '注册成功',
+              duration: 1,
+              onClose: () => {
+                navigate('/login')
+              },
             })
           }
         })
