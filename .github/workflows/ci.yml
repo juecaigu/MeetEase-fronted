@@ -65,7 +65,7 @@ jobs:
           echo "Current directory: $(pwd)"
       
       - name: Deploy to server
-        uses: easingthemes/ssh-deploy@v2.0.7
+        uses: easingthemes/ssh-deploy@v5.1.1
         env:
           SSH_PRIVATE_KEY: ${{ env.SSH_PRIVATE_KEY }}
           ARGS: '-avz --delete'
